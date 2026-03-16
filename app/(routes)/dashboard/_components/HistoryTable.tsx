@@ -71,52 +71,45 @@ function HistoryTable({ historyList }: Props) {
     };
     return (
         <div>
-            <Table>
-                {/* 📋 Caption for accessibility and context */}
-                <TableCaption>Previous Training Reports</TableCaption>
+            <div className="w-full">
+                <table className="w-full caption-bottom text-sm">
+                    {/* 📋 Caption for accessibility and context */}
+                    <caption className="text-muted-foreground mt-4 text-sm mb-4">Previous Training Reports</caption>
 
-                {/* 🧾 Table Header Row */}
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>AI Education Assistant</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead className="text-right">Action</TableHead>
-                    </TableRow>
-                </TableHeader>
+                    {/* 🧾 Table Header Row */}
+                    <thead className="[&_tr]:border-b sticky top-0 bg-background z-10 shadow-sm">
+                        <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                            <th className="h-10 px-4 text-left align-middle font-medium text-muted-foreground">AI Education Assistant</th>
+                            <th className="h-10 px-4 text-left align-middle font-medium text-muted-foreground">Date</th>
+                            <th className="h-10 px-4 text-right align-middle font-medium text-muted-foreground">Action</th>
+                        </tr>
+                    </thead>
 
-                {/* 📄 Table Body */}
-                <TableBody>
-                    {historyList.map((record: SessionDetail, index: number) => (
-                        <TableRow key={index}>
-                            {/* Doctor specialty */}
-                            <TableCell className="font-medium">
-                                {record.selectedTeacher.specialist}
-                            </TableCell>
+                    {/* 📄 Table Body */}
+                    <tbody className="[&_tr:last-child]:border-0 bg-background">
+                        {historyList.map((record: SessionDetail, index: number) => (
+                            <tr key={index} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                                {/* Doctor specialty */}
+                                <td className="p-4 align-middle font-medium">
+                                    {record.selectedTeacher.specialist}
+                                </td>
 
-                            {/* Human-readable timestamp */}
-                            <TableCell>
-                                {moment(new Date(record.createdOn)).fromNow()}
-                            </TableCell>
+                                {/* Human-readable timestamp */}
+                                <td className="p-4 align-middle">
+                                    {moment(new Date(record.createdOn)).fromNow()}
+                                </td>
 
-                            {/* 🔍 View Report & Play Recording Actions */}
-                            <TableCell className="text-right">
-                                <div className="flex items-center justify-end gap-2">
-                                    {/* 🎵 Play Voice Recording Button */}
-                                    {/* <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => handlePlayRecording(record.sessionId)}
-                                        title="Play voice recording"
-                                    >
-                                        <Volume2 className="h-4 w-4" />
-                                    </Button> */}
-                                    <ViewReportDialog record={record} />
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                                {/* 🔍 View Report & Play Recording Actions */}
+                                <td className="p-4 align-middle text-right">
+                                    <div className="flex items-center justify-end gap-2">
+                                        <ViewReportDialog record={record} />
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

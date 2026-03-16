@@ -48,8 +48,11 @@ function HistoryList() {
                 </div>
             ) : (
                 // 📊 Show consultation history table
-                <div>
-                    <HistoryTable historyList={historyList} />
+                <div className="mt-6 border rounded-xl shadow-sm bg-background overflow-hidden flex flex-col">
+                    <h3 className="text-lg font-semibold p-4 border-b bg-muted/30">Recent Consultations</h3>
+                    <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                        <HistoryTable historyList={historyList} />
+                    </div>
                 </div>
             )}
         </div>
