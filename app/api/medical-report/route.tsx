@@ -74,33 +74,33 @@ Rules:
 
 
 export async function POST(req: NextRequest) {
-    const { sessionId, sessionDetail, messages } = await req.json();
+   const { sessionId, sessionDetail, messages } = await req.json();
 
-    try {
-        const UserInput = "AI Medical Trainer Agent Info:" + JSON.stringify(sessionDetail) + ", Conversation:" + JSON.stringify(messages);
-        const completion = await openai.chat.completions.create({
-            model: "google/gemini-2.5-flash",
-            messages: [
-                { role: 'system', content: REPORT_GEN_PROMPT },
-                { role: "user", content: UserInput }
-            ],
-        });
+   try {
+      const UserInput = "AI Medical Trainer Agent Info:" + JSON.stringify(sessionDetail) + ", Conversation:" + JSON.stringify(messages);
+      const completion = await openai.chat.completions.create({
+         model: "google/gemini-2.5-flash",
+         messages: [
+            { role: 'system', content: REPORT_GEN_PROMPT },
+            { role: "user", content: UserInput }
+         ],
+      });
 
-        const rawResp = completion.choices[0].message;
+      const rawResp = completion.choices[0].message;
 
-        //@ts-ignore
-        const Resp = rawResp.content.trim().replace('```json', '').replace('```', '')
-        const JSONResp = JSON.parse(Resp);
+      //@ts-ignore
+      const Resp = rawResp.content.trim().replace('```json', '').replace('```', '')
+      const JSONResp = JSON.parse(Resp);
 
-        // Save to Database
-        const result = await db.update(SessionChatTable).set({
-            report: JSONResp,
-            conversation: messages
-        }).where(eq(SessionChatTable.sessionId, sessionId));
+      // Save to Database
+      const result = await db.update(SessionChatTable).set({
+         report: JSONResp,
+         conversation: messages
+      }).where(eq(SessionChatTable.sessionId, sessionId));
 
-        return NextResponse.json(JSONResp)
-    } catch (e) {
-        return NextResponse.json(e)
+      return NextResponse.json(JSONResp)
+   } catch (e) {
+      return NextResponse.json(e)
 
-    }
+   }
 }
