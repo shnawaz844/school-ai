@@ -12,7 +12,7 @@ export const SessionChatTable = pgTable('sessionChatTable', {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     sessionId: varchar().notNull(),
     notes: text(),
-    selectedDoctor: json(),
+    selectedTeacher: json(),
     conversation: json(),
     report: json(),
     vapiCallId: varchar(), // Vapi call ID for recording retrieval

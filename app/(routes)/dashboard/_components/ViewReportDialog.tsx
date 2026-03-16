@@ -8,17 +8,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { SessionDetail } from "../medical-agent/[sessionId]/page";
+import { SessionDetail } from "../teacher-agent/[sessionId]/page";
 import moment from "moment";
 
 type props = {
-  record: SessionDetail;
 };
 
 /**
- * ViewTrainingReportDialog Component
- *
- * Displays a detailed AI Medical Training / Interview report
+ * Displays a detailed AI Training / Interview report
  */
 function ViewReportDialog({ record }: props) {
   const report: any = record?.report;
@@ -38,7 +35,7 @@ function ViewReportDialog({ record }: props) {
         <DialogHeader>
           <DialogTitle asChild>
             <h2 className="text-center text-3xl font-bold text-blue-500 mb-6">
-              🎓 AI Medical Training Report
+              🎓 AI Training Report
             </h2>
           </DialogTitle>
 
@@ -98,7 +95,7 @@ function ViewReportDialog({ record }: props) {
               {report?.correctConcepts?.length > 0 && (
                 <div>
                   <h3 className="text-lg font-semibold text-green-600">
-                    Correctly Understood Concepts
+                    Concepts Mastered
                   </h3>
                   <hr className="border-t-2 border-green-600 my-2" />
                   <ul className="list-disc list-inside">
@@ -115,7 +112,7 @@ function ViewReportDialog({ record }: props) {
               {report?.incorrectOrMissingConcepts?.length > 0 && (
                 <div>
                   <h3 className="text-lg font-semibold text-red-500">
-                    Areas to Improve
+                    Areas for Improvement
                   </h3>
                   <hr className="border-t-2 border-red-500 my-2" />
                   <ul className="list-disc list-inside">
@@ -149,7 +146,7 @@ function ViewReportDialog({ record }: props) {
               {/* ⚠️ Footer */}
               <div className="pt-6 border-t border-gray-300 text-center text-xs text-gray-500">
                 This report reflects a learning and assessment session conducted
-                by an AI Medical Trainer. It is not a medical consultation.
+                by an AI Education Assistant.
               </div>
             </div>
           </DialogDescription>

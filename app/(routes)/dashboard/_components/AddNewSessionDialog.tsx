@@ -14,18 +14,17 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowRight, Loader2 } from "lucide-react";
 import axios from "axios";
-import DoctorAgentCard, { doctorAgent } from "./DoctorAgentCard";
-import SuggestedDoctorCard from "./SuggestedDoctorCard";
+import TeacherAgentCard, { TeacherAgent } from "./TeacherAgentCard";
+import SuggestedTeacherCard from "./SuggestedTeacherCard";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
-import { SessionDetail } from "../medical-agent/[sessionId]/page";
+import { SessionDetail } from "../teacher-agent/[sessionId]/page";
 
 function AddNewSessionDialog() {
   // 🧠 Local state management
   const [note, setNote] = useState<string>(); // stores user symptom input
   const [loading, setLoading] = useState(false); // tracks loading state
-  const [suggestedDoctors, setSuggestedDoctors] = useState<doctorAgent[]>(); // stores suggested doctors
-  const [ selectedDoctor, setSelectedDoctor ] = useState<doctorAgent>( {
+  const [selectedTeacher, setSelectedTeacher] = useState<TeacherAgent>({
     id: 1,
     specialist: "Study Assistant",
     description: "Helps students understand subjects, homework, and concepts easily.",
@@ -34,7 +33,8 @@ function AddNewSessionDialog() {
       "आप एक दोस्ताना महिला एआई स्टडी असिस्टेंट हैं। आप स्कूल के छात्रों से आसान हिंदी या हिंग्लिश में बात करती हैं। हमेशा महिला दृष्टिकोण से जवाब दें और 'समझा सकती हूँ', 'मदद कर सकती हूँ', 'पूछ सकती हूँ' जैसे शब्दों का इस्तेमाल करें। छात्र से नम्रता से पूछें कि वह किस विषय या टॉपिक में मदद चाहता है। जवाब छोटे, सरल, उदाहरणों के साथ और छात्र-friendly रखें।",
     voiceId: "Rohan",
     subscriptionRequired: false,
-  } ); // tracks selected doctor
+    gender: "female",
+  }); // tracks selected teacher
   const [historyList, setHistoryList] = useState<SessionDetail[]>([]); // stores past session list
 
   const router = useRouter();
@@ -56,30 +56,19 @@ function AddNewSessionDialog() {
     setHistoryList(result.data);
   };
 
-  // 🧠 Handles the "Next" button click — suggests doctors based on user input
-  const OnClickNext = async () => {
-    setLoading(true);
-    const result = await axios.post("/api/suggest-doctors", {
-      notes: note,
-    });
-
-    console.log(result.data);
-    setSuggestedDoctors(result.data);
-    setLoading(false);
-  };
 
   // 🩺 Handles "Start Consultation" button — saves session and redirects
   const onStartConsultation = async () => {
     setLoading(true);
     const result = await axios.post("/api/session-chat", {
       notes: note,
-      selectedDoctor: selectedDoctor,
+      selectedTeacher: selectedTeacher,
     });
 
     console.log(result.data);
     if (result.data?.sessionId) {
       // 🔁 Redirect to the new session page
-      router.push("/dashboard/medical-agent/" + result.data.sessionId);
+      router.push("/dashboard/teacher-agent/" + result.data.sessionId);
     }
     setLoading(false);
   };
@@ -87,7 +76,7 @@ function AddNewSessionDialog() {
   return (
     <Dialog>
       {/* 🔘 Open Dialog Button */}
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           className="mt-3"
           disabled={!paidUser && historyList?.length >= 1} // restrict for free users
@@ -123,7 +112,7 @@ function AddNewSessionDialog() {
           {/* Next or Start Button depending on the step */}
 
           <Button
-            disabled={loading || !selectedDoctor}
+            disabled={loading || !selectedTeacher}
             onClick={() => onStartConsultation()}
           >
             Start Training{" "}

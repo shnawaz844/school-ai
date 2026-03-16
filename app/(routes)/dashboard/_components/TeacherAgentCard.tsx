@@ -12,7 +12,7 @@ import React, { useState } from 'react'
 /**
  * Type definition for each doctor agent card
  */
-export type doctorAgent = {
+export type TeacherAgent = {
     id: number,
     specialist: string,
     description: string,
@@ -24,15 +24,10 @@ export type doctorAgent = {
 }
 
 type props = {
-    doctorAgent: doctorAgent
+    TeacherAgent: TeacherAgent
 }
 
-/**
- * DoctorAgentCard Component
- * Renders a doctor card with image, name, description,
- * and a button to start a new consultation session.
- */
-function DoctorAgentCard({ doctorAgent }: props) {
+function TeacherAgentCard({ TeacherAgent }: props) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { has } = useAuth();
@@ -51,12 +46,12 @@ function DoctorAgentCard({ doctorAgent }: props) {
         // Post the new session to backend API
         const result = await axios.post('/api/session-chat', {
             notes: 'New Query',
-            selectedDoctor: doctorAgent
+            selectedTeacher: TeacherAgent
         });
 
         if (result.data?.sessionId) {
             // Navigate to the new session page
-            router.push('/dashboard/medical-agent/' + result.data.sessionId);
+            router.push('/dashboard/teacher-agent/' + result.data.sessionId);
         }
 
         setLoading(false);
@@ -65,25 +60,25 @@ function DoctorAgentCard({ doctorAgent }: props) {
     return (
         <div className='relative'>
             {/* 🔒 Premium badge if doctor requires subscription */}
-            {doctorAgent.subscriptionRequired && (
+            {TeacherAgent.subscriptionRequired && (
                 <Badge className='absolute m-2 right-0'>Premium</Badge>
             )}
 
             {/* 👨‍⚕️ Doctor image */}
             <Image
-                src={doctorAgent.image}
-                alt={doctorAgent.specialist}
+                src={TeacherAgent.image}
+                alt={TeacherAgent.specialist}
                 width={200}
                 height={300}
                 className='w-full h-[230px] object-cover rounded-xl'
             />
 
             {/* 🩺 Specialist title */}
-            <h2 className='font-bold mt-1'>{doctorAgent.specialist}</h2>
+            <h2 className='font-bold mt-1'>{TeacherAgent.specialist}</h2>
 
             {/* 📋 Doctor description */}
             <p className='line-clamp-2 text-sm text-gray-500'>
-                {doctorAgent.description}
+                {TeacherAgent.description}
             </p>
 
             {/* 🚀 Start consultation button */}
@@ -103,4 +98,4 @@ function DoctorAgentCard({ doctorAgent }: props) {
     )
 }
 
-export default DoctorAgentCard
+export default TeacherAgentCard
