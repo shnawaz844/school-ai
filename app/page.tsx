@@ -88,7 +88,7 @@ const Navbar = () => {
   return (
     <nav className="flex w-full items-center justify-between border-t border-b border-neutral-200 px-10 py-2 dark:border-neutral-800">
       <div className="flex items-center gap-2">
-        <Image src={'/logo132.png'} alt='logo' width={180} height={30} />
+        <Image src={'/logo132.png'} alt='logo' width={140} height={10} />
 
         {/* <div className="size-7 rounded-full bg-gradient-to-br from-violet-500 to-pink-500" />
         <h1 className="text-base font-bold md:text-2xl">MediVoice AI</h1> */}

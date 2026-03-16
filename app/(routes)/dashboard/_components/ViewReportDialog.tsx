@@ -12,6 +12,7 @@ import { SessionDetail } from "../teacher-agent/[sessionId]/page";
 import moment from "moment";
 
 type props = {
+  record: SessionDetail;
 };
 
 /**
