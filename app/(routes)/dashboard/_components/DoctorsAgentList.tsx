@@ -1,6 +1,6 @@
 import { AITeacherAgents } from '@/shared/list'
 import React from 'react'
-import DoctorAgentCard from './DoctorAgentCard'
+import TeacherAgentCard from './TeacherAgentCard'
 
 /**
  * DoctorsAgentList Component
@@ -10,14 +10,14 @@ function DoctorsAgentList() {
     return (
         <div className='mt-10'>
             {/* 🧠 Section Title */}
-            <h2 className='font-bold text-xl'>AI Learning Specialist Agent</h2>
+            <h2 className='font-bold text-xl'>AI Subject Teachers</h2>
 
-            {/* 🩺 Responsive grid layout for doctor cards */}
+            {/* 🏫 Responsive grid layout for teacher cards */}
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 mt-5'>
-                {AITeacherAgents.map((doctor, index) => (
+                {AITeacherAgents.map((teacher, index) => (
                     <div key={index}>
-                        {/* 🧑‍⚕️ Render each doctor agent card */}
-                        <DoctorAgentCard doctorAgent={doctor} />
+                        {/* 🧑‍🏫 Render each teacher agent card */}
+                        <TeacherAgentCard TeacherAgent={teacher} />
                     </div>
                 ))}
             </div>

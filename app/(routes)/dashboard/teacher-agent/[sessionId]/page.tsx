@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { doctorAgent } from "../../_components/DoctorAgentCard";
+import { TeacherAgent } from "../../_components/TeacherAgentCard";
 import { Circle, Loader, PhoneCall, PhoneOff } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ export type SessionDetail = {
   notes: string;
   sessionId: string;
   report: JSON;
-  selectedDoctor: doctorAgent;
+  selectedTeacher: TeacherAgent;
   createdOn: string;
 };
 
@@ -31,7 +31,7 @@ type messages = {
  * start a voice call with an AI doctor agent, interact in real-time,
  * view live transcripts, and generate a consultation report.
  */
-function MedicalVoiceAgent() {
+function TeacherVoiceAgent() {
   const { sessionId } = useParams(); // Get sessionId from route parameters
   const [sessionDetail, setSessionDetail] = useState<SessionDetail>(); // Current session details
   const [callStarted, setCallStarted] = useState(false); // Call connection status
@@ -72,10 +72,10 @@ function MedicalVoiceAgent() {
 
     // Configuration for the AI voice agent
     const VapiAgentConfig = {
-      name: "AI Medical Trainer Voice Agent",
+      name: "AI Subject Teacher Voice Agent",
 
-      // Use the doctor's custom greeting/prompt
-      firstMessage: sessionDetail.selectedDoctor?.agentPrompt || "Hello, how can I help you today?",
+      // Use the teacher's custom greeting/prompt
+      firstMessage: sessionDetail.selectedTeacher?.agentPrompt || "Hello, how can I help you today?",
 
       transcriber: {
         model: "nova-3",
@@ -85,8 +85,8 @@ function MedicalVoiceAgent() {
 
       voice: {
         model: "eleven_turbo_v2_5",
-        // Select voice based on doctor's gender
-        voiceId: sessionDetail.selectedDoctor?.gender === "male"
+        // Select voice based on agent's gender
+        voiceId: sessionDetail.selectedTeacher?.gender === "male"
           ? process.env.NEXT_PUBLIC_MALE_VOICE_ID!
           : process.env.NEXT_PUBLIC_FEMALE_VOICE_ID!,
         provider: "11labs",
@@ -101,18 +101,18 @@ function MedicalVoiceAgent() {
           {
             role: "system",
             content: `
-You are an experienced AI ${sessionDetail.selectedDoctor?.specialist || "Medical Trainer"}, not a real doctor.
+You are an experienced AI ${sessionDetail.selectedTeacher?.specialist || "Subject Teacher"}.
 
 🔹 Training Topic:
-Choose any random topic as per the specialist ${sessionDetail.selectedDoctor?.specialist}.
+Choose any random topic as per the specialist ${sessionDetail.selectedTeacher?.specialist}. Focus strictly on school curriculum and educational concepts. 
 
-This is the specific condition/disease that the entire conversation will focus on.
+⛔ CRITICAL: Do NOT discuss medical topics, diseases (like diabetes), or healthcare advice unless it is strictly part of a school-level Biology curriculum (e.g., cell structure, human anatomy basics).
 
 Training Rules:
 - Follow the communication style and language from your greeting message.
-- Don't lecture directly — ask questions like in a medical viva/interview.
+- Don't lecture directly — ask questions like in a teacher-student interview.
 - Ask only one question at a time.
-- Cover symptoms, causes, differential diagnosis, red flags, and basic management.
+- Cover definitions, concepts, application-based scenarios, and common misconceptions.
 
 Answer Evaluation:
 - Correct answer → Praise and enhance with additional insights.
@@ -125,7 +125,7 @@ Behavior:
 - Encouragement is essential for correct answers.
 
 Goal:
-Help the user understand the topic well enough to confidently clear a medical interview on this topic.
+Help the user understand the topic well enough to confidently clear an exam or interview on this topic.
         `,
           },
         ],
@@ -159,7 +159,8 @@ Help the user understand the topic well enough to confidently clear a medical in
 
       // Try to extract call ID from vapi instance
       //@ts-ignore
-      const instanceCallId = vapi.call?.callClientId || vapi.call?._callClientId || vapi.call?.id || vapi.callId;
+      const instanceCallId = (vapi as any).call?.callClientId || (vapi as any).call?._callClientId || (vapi as any).call?.id || (vapi as any).callId;
+      //@ts-ignore
       console.log("Instance call ID:", instanceCallId, vapi.call);
 
       if (instanceCallId) {
@@ -325,7 +326,7 @@ Help the user understand the topic well enough to confidently clear a medical in
    */
   const GenerateReport = async () => {
     setLoading(true);
-    const result = await axios.post("/api/medical-report", {
+    const result = await axios.post("/api/training-report", {
       messages: messages,
       sessionDetail: sessionDetail,
       sessionId: sessionId,
@@ -356,14 +357,14 @@ Help the user understand the topic well enough to confidently clear a medical in
       {sessionDetail && (
         <div className="flex items-center flex-col mt-10">
           <Image
-            src={sessionDetail.selectedDoctor?.image}
-            alt={sessionDetail.selectedDoctor?.specialist ?? ""}
+            src={sessionDetail.selectedTeacher?.image}
+            alt={sessionDetail.selectedTeacher?.specialist ?? ""}
             width={120}
             height={120}
             className="h-[100px] w-[100px] object-cover rounded-full"
           />
           <h2 className="mt-2 text-lg">
-            {sessionDetail.selectedDoctor?.specialist}
+            {sessionDetail.selectedTeacher?.specialist}
           </h2>
           <p className="text-sm text-gray-400">AI Education Assistant</p>
 
@@ -399,4 +400,4 @@ Help the user understand the topic well enough to confidently clear a medical in
   );
 }
 
-export default MedicalVoiceAgent;
+export default TeacherVoiceAgent;

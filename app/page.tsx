@@ -61,7 +61,7 @@ export default function Home() {
 
           </motion.div>
         </Link>
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 1.2 }}
@@ -70,15 +70,15 @@ export default function Home() {
           <div className="w-full max-w-4xl overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700">
             <img
               src="https://www.verloop.io/wp-content/uploads/vl-home-hero-img-alt-updated.jpg"
-              alt="AI Medical Assistant Demo"
+              alt="AI School Teacher Demo"
               className="aspect-[16/9] h-auto w-full object-cover"
               height={1000}
               width={1000}
             />
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
-      <FeatureBentoGrid />
+      {/* <FeatureBentoGrid /> */}
     </div>
   );
 }
@@ -88,7 +88,7 @@ const Navbar = () => {
   return (
     <nav className="flex w-full items-center justify-between border-t border-b border-neutral-200 px-10 py-2 dark:border-neutral-800">
       <div className="flex items-center gap-2">
-        <Image src={'/school.jpg'} alt='logo' width={120} height={10} />
+        <Image src={'/logo132.png'} alt='logo' width={180} height={30} />
 
         {/* <div className="size-7 rounded-full bg-gradient-to-br from-violet-500 to-pink-500" />
         <h1 className="text-base font-bold md:text-2xl">MediVoice AI</h1> */}

@@ -6,7 +6,7 @@ import { desc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
 export async function POST(req: NextRequest) {
-    const { notes, selectedDoctor } = await req.json();
+    const { notes, selectedTeacher } = await req.json();
     const user = await currentUser();
     try {
         const sessionId = uuidv4();
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
             sessionId: sessionId,
             createdBy: user?.primaryEmailAddress?.emailAddress,
             notes: notes,
-            selectedDoctor: selectedDoctor,
+            selectedTeacher: selectedTeacher,
             createdOn: (new Date()).toString()
             //@ts-ignore
         }).returning({ SessionChatTable });
