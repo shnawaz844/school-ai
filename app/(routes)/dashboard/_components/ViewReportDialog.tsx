@@ -16,7 +16,7 @@ type props = {
 };
 
 /**
- * Displays a detailed AI Training / Interview report
+ * Displays a detailed AI Tutoring / Learning session report
  */
 function ViewReportDialog({ record }: props) {
   const report: any = record?.report;
@@ -28,7 +28,7 @@ function ViewReportDialog({ record }: props) {
     <Dialog>
       <DialogTrigger>
         <Button variant={"link"} size={"sm"}>
-          View Training Report
+          View Learning Report
         </Button>
       </DialogTrigger>
 
@@ -36,7 +36,7 @@ function ViewReportDialog({ record }: props) {
         <DialogHeader>
           <DialogTitle asChild>
             <h2 className="text-center text-3xl font-bold text-blue-500 mb-6">
-              🎓 AI Training Report
+              📘 Student Learning Report
             </h2>
           </DialogTitle>
 
@@ -46,31 +46,42 @@ function ViewReportDialog({ record }: props) {
               {/* 📌 Session Info */}
               <div>
                 <h3 className="text-lg font-semibold text-blue-500">
-                  Session Info
+                  Learning Session Info
                 </h3>
                 <hr className="border-t-2 border-blue-500 my-2" />
                 <div className="grid grid-cols-2 gap-3">
-                  <p><strong>Trainer:</strong> {report?.agent}</p>
-                  <p><strong>Trainee:</strong> {report?.user || "Anonymous"}</p>
-                  <p><strong>Training Topic:</strong> {report?.trainingTopic}</p>
-                  <p><strong>Session Date:</strong> {formatDate}</p>
+                  <p><strong>Teacher:</strong> {report?.agent}</p>
+                  <p><strong>Student:</strong> {report?.user || "Anonymous"}</p>
+                  <p><strong>Subject / Topic:</strong> {report?.trainingTopic}</p>
+                  <p><strong>Date:</strong> {formatDate}</p>
+                  <p><strong>Learning Score:</strong> {report?.learningScore || "N/A"} / 100</p>
+                  <p><strong>Overall Performance:</strong> {report?.overallAssessment}</p>
                 </div>
               </div>
 
-              {/* 🧠 Interview Summary */}
+              {/* 🎯 Learning Goal */}
               <div>
                 <h3 className="text-lg font-semibold text-blue-500">
-                  Interview Summary
+                  Learning Goal
                 </h3>
                 <hr className="border-t-2 border-blue-500 my-2" />
-                <p>{report?.interviewSummary}</p>
+                <p>{report?.learningGoal || record?.notes}</p>
+              </div>
+
+              {/* 🧠 Lesson Summary */}
+              <div>
+                <h3 className="text-lg font-semibold text-blue-500">
+                  Lesson Summary
+                </h3>
+                <hr className="border-t-2 border-blue-500 my-2" />
+                <p>{report?.sessionSummary || report?.interviewSummary}</p>
               </div>
 
               {/* ❓ Questions Asked */}
               {report?.questionsAsked?.length > 0 && (
                 <div>
                   <h3 className="text-lg font-semibold text-blue-500">
-                    Questions Asked
+                    Questions Given
                   </h3>
                   <hr className="border-t-2 border-blue-500 my-2" />
                   <ul className="list-disc list-inside space-y-1">
@@ -83,20 +94,20 @@ function ViewReportDialog({ record }: props) {
                 </div>
               )}
 
-              {/* 🗣️ User Responses */}
+              {/* 🗣️ Student Responses */}
               <div>
                 <h3 className="text-lg font-semibold text-blue-500">
-                  User Responses (Summary)
+                  Student Responses (Summary)
                 </h3>
                 <hr className="border-t-2 border-blue-500 my-2" />
                 <p>{report?.userResponses}</p>
               </div>
 
-              {/* ✅ Correct Concepts */}
+              {/* ✅ Strengths */}
               {report?.correctConcepts?.length > 0 && (
                 <div>
                   <h3 className="text-lg font-semibold text-green-600">
-                    Concepts Mastered
+                    Strengths
                   </h3>
                   <hr className="border-t-2 border-green-600 my-2" />
                   <ul className="list-disc list-inside">
@@ -109,11 +120,11 @@ function ViewReportDialog({ record }: props) {
                 </div>
               )}
 
-              {/* ❌ Missing / Incorrect Concepts */}
+              {/* ❌ Areas to Improve */}
               {report?.incorrectOrMissingConcepts?.length > 0 && (
                 <div>
                   <h3 className="text-lg font-semibold text-red-500">
-                    Areas for Improvement
+                    Areas to Improve
                   </h3>
                   <hr className="border-t-2 border-red-500 my-2" />
                   <ul className="list-disc list-inside">
@@ -126,28 +137,18 @@ function ViewReportDialog({ record }: props) {
                 </div>
               )}
 
-              {/* 📝 Trainer Feedback */}
+              {/* 📝 Teacher Feedback */}
               <div>
                 <h3 className="text-lg font-semibold text-blue-500">
-                  Trainer Feedback
+                  Teacher Feedback
                 </h3>
                 <hr className="border-t-2 border-blue-500 my-2" />
                 <p>{report?.trainerFeedback}</p>
               </div>
 
-              {/* 🏁 Final Assessment */}
-              <div>
-                <h3 className="text-lg font-semibold text-purple-600">
-                  Overall Assessment
-                </h3>
-                <hr className="border-t-2 border-purple-600 my-2" />
-                <p className="font-semibold">{report?.overallAssessment}</p>
-              </div>
-
               {/* ⚠️ Footer */}
               <div className="pt-6 border-t border-gray-300 text-center text-xs text-gray-500">
-                This report reflects a learning and assessment session conducted
-                by an AI Education Assistant.
+                This report reflects a student learning session conducted by an AI Teaching Assistant.
               </div>
             </div>
           </DialogDescription>

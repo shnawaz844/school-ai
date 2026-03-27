@@ -19,8 +19,8 @@ function SuggestedTeacherCard({ TeacherAgent, setSelectedTeacher, selectedTeache
         <div
             className={`flex flex-col items-center
             border rounded-2xl shadow p-5
-            hover:border-blue-500 cursor-pointer
-            ${selectedTeacher?.id == TeacherAgent?.id && 'border-blue-500'}`}
+            hover:border-[#FF6600] cursor-pointer
+            ${selectedTeacher?.id == TeacherAgent?.id && 'border-[#FF6600]'}`}
             onClick={() => setSelectedTeacher(TeacherAgent)} // select this teacher on click
         >
             {/* 👤 Teacher image */}

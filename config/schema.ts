@@ -5,7 +5,13 @@ export const usersTable = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     name: varchar({ length: 255 }).notNull(),
     email: varchar({ length: 255 }).notNull().unique(),
-    credits: integer()
+    credits: integer(),
+    score: integer().default(0),
+    classSubject: varchar(),
+    image: varchar(),
+    studentClass: varchar(),
+    interests: varchar(),
+    subjects: varchar()
 });
 
 export const SessionChatTable = pgTable('sessionChatTable', {

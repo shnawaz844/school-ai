@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_REPORT_PROMPT = `
-You are an AI Education Specialist that has just completed a voice-based training / interview session with a student.
+You are an AI Education Specialist that has just completed a voice-based tutoring / learning session with a student.
 
 The goal of the conversation was to TEACH and ASSESS the user's understanding of a specific subject topic mentioned in the session notes.
 
@@ -13,7 +13,7 @@ Based on:
 1) AI teacher agent info
 2) The full conversation between the AI teacher and the student
 
-Generate a structured TRAINING REPORT with the following fields:
+Generate a structured LEARNING REPORT with the following fields:
 
 1. agent:
    Name or role of the AI teacher (e.g., "Mathematics Teacher AI")
@@ -25,10 +25,13 @@ Generate a structured TRAINING REPORT with the following fields:
    Current date and time in ISO format
 
 4. trainingTopic:
-   The subject topic the user was trained on (e.g., Algebra, Photosynthesis)
+   The specific subject topic the user was taught (e.g., Algebra, Photosynthesis)
 
-5. interviewSummary:
-   2–3 sentence summary of how the teaching session went, including what was asked and how the student responded overall
+5. learningGoal:
+   The primary objective or goal of this session based on the session notes
+
+5. sessionSummary:
+   2–3 sentence summary of how the learning session went, including what was explained and how the student responded overall
 
 6. questionsAsked:
    List of key questions asked by the AI teacher during the session
@@ -45,8 +48,8 @@ Generate a structured TRAINING REPORT with the following fields:
 10. trainerFeedback:
     Constructive feedback given by the AI teacher to help the student improve
 
-11. overallAssessment:
-    One of: "Beginner", "Intermediate", or "Excellent"
+12. learningScore:
+    A numerical score from 1 to 100 based on the student's performance and understanding during the session
 
 Return the result strictly in the following JSON format:
 
@@ -54,20 +57,22 @@ Return the result strictly in the following JSON format:
   "agent": "string",
   "user": "string",
   "timestamp": "ISO Date string",
+  "learningGoal": "string",
   "trainingTopic": "string",
-  "interviewSummary": "string",
+  "sessionSummary": "string",
   "questionsAsked": ["question1", "question2"],
   "userResponses": "string",
   "correctConcepts": ["concept1", "concept2"],
   "incorrectOrMissingConcepts": ["concept1", "concept2"],
   "trainerFeedback": "string",
-  "overallAssessment": "string"
+  "overallAssessment": "string",
+  "learningScore": number
 }
 
 Rules:
-- Do NOT act like a medical consultation report.
+- Do NOT act like a medical consultation or job interview report.
 - Focus strictly on educational concepts and learning outcomes.
-- This is a learning and evaluation report, not a professional certificate.
+- This is a teaching and academic evaluation report.
 - Respond with ONLY valid JSON. No extra text.
 `;
 

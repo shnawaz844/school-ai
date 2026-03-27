@@ -21,7 +21,7 @@ type Props = {
 /**
  * HistoryTable Component
  * 
- * Displays a table listing previous consultation sessions including:
+ * Displays a table listing previous learning sessions including:
  * - AI Subject Specialist
  * - Created Date
  * - Voice Recording Playback
@@ -74,7 +74,7 @@ function HistoryTable({ historyList }: Props) {
             <div className="w-full">
                 <table className="w-full caption-bottom text-sm">
                     {/* 📋 Caption for accessibility and context */}
-                    <caption className="text-muted-foreground mt-4 text-sm mb-4">Previous Training Reports</caption>
+                    <caption className="text-muted-foreground mt-4 text-sm mb-4">Previous Learning Reports</caption>
 
                     {/* 🧾 Table Header Row */}
                     <thead className="[&_tr]:border-b sticky top-0 bg-background z-10 shadow-sm">
@@ -89,7 +89,7 @@ function HistoryTable({ historyList }: Props) {
                     <tbody className="[&_tr:last-child]:border-0 bg-background">
                         {historyList.map((record: SessionDetail, index: number) => (
                             <tr key={index} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                                {/* Doctor specialty */}
+                                {/* Teacher specialty */}
                                 <td className="p-4 align-middle font-medium">
                                     {record.selectedTeacher.specialist}
                                 </td>
@@ -111,7 +111,7 @@ function HistoryTable({ historyList }: Props) {
                 </table>
             </div>
         </div>
-    )
+    );
 }
 
 export default HistoryTable

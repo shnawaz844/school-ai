@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { TeacherAgent } from "../../_components/TeacherAgentCard";
-import { Circle, Loader, PhoneCall, PhoneOff } from "lucide-react";
+import { Circle, Loader, PhoneCall, PhoneOff, Mic, MicOff } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Vapi from "@vapi-ai/web";
@@ -25,11 +25,11 @@ type messages = {
 };
 
 /**
- * MedicalVoiceAgent Component
+ * TeacherVoiceAgent Component
  *
- * Provides an AI-powered medical voice assistant interface where users can
- * start a voice call with an AI doctor agent, interact in real-time,
- * view live transcripts, and generate a consultation report.
+ * Provides an AI-powered educational voice assistant interface where students can
+ * start a voice lesson with an AI teacher agent, interact in real-time,
+ * view live transcripts, and generate a learning report.
  */
 function TeacherVoiceAgent() {
   const { sessionId } = useParams(); // Get sessionId from route parameters
@@ -41,8 +41,78 @@ function TeacherVoiceAgent() {
   const [messages, setMessages] = useState<messages[]>([]); // Finalized chat messages log
   const [loading, setLoading] = useState(false); // Loading state for UI feedback
   const [vapiCallId, setVapiCallId] = useState<string | null>(null); // Vapi call ID for recording retrieval
+  const [seconds, setSeconds] = useState(0); // Timer seconds
+  const [isEnded, setIsEnded] = useState(false); // Session ended state
+  const [isMuted, setIsMuted] = useState(false); // Microphone mute state
   const router = useRouter();
   const callActiveRef = useRef(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Timer logic
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (callStarted) {
+      interval = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [callStarted]);
+
+  // Auto-scroll to bottom of chat
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, liveTranscript]);
+
+  // Handle Video Playback based on current role (agent speaking)
+  useEffect(() => {
+    if (videoRef.current) {
+      if (currentRole === "assistant") {
+        videoRef.current.play().catch((err) => console.log("Video play error:", err));
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [currentRole]);
+
+  const toggleMute = () => {
+    if (vapiInstance) {
+      vapiInstance.setMuted(!isMuted);
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const formatTime = (totalSeconds: number) => {
+    const min = Math.floor(totalSeconds / 60);
+    const sec = totalSeconds % 60;
+    return `${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
+  };
+
+  const formatMessage = (text: string) => {
+    if (!text) return text;
+    // Split text by sentence-ending punctuation followed by space
+    const sentences = text.split(/(?<=[.!?।])\s+/).filter((s) => s.trim().length > 0);
+
+    if (sentences.length <= 1) {
+      return <span>{text}</span>;
+    }
+
+    return (
+      <ul className="space-y-2">
+        {sentences.map((s, i) => (
+          <li key={i} className="flex items-start gap-2">
+            <span className="text-gray-400 mt-0.5 text-sm">•</span>
+            <span>{s.trim()}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   // Load session details on component mount or when sessionId changes
   useEffect(() => {
@@ -58,13 +128,14 @@ function TeacherVoiceAgent() {
 
   /**
    * StartCall
-   * Initializes and starts the voice call with the AI Medical Doctor Voice Agent
+   * Initializes and starts the voice call with the AI Subject Teacher Voice Agent
    * using the Vapi SDK and sets up event listeners for call and speech events.
    */
   const StartCall = () => {
     console.log("Starting call", sessionDetail);
     if (!sessionDetail) return;
     setLoading(true);
+    setSeconds(0);
 
     // Initialize Vapi instance with your API key
     const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY!);
@@ -72,10 +143,10 @@ function TeacherVoiceAgent() {
 
     // Configuration for the AI voice agent
     const VapiAgentConfig = {
-      name: "AI Subject Teacher Voice Agent",
+      name: "AI Subject Specialist",
 
       // Use the teacher's custom greeting/prompt
-      firstMessage: sessionDetail.selectedTeacher?.agentPrompt || "Hello, how can I help you today?",
+      firstMessage: sessionDetail.selectedTeacher?.agentPrompt || "Hello student, how can I help you today?",
 
       transcriber: {
         model: "nova-3",
@@ -103,14 +174,14 @@ function TeacherVoiceAgent() {
             content: `
 You are an experienced AI ${sessionDetail.selectedTeacher?.specialist || "Subject Teacher"}.
 
-🔹 Training Topic:
-Choose any random topic as per the specialist ${sessionDetail.selectedTeacher?.specialist}. Focus strictly on school curriculum and educational concepts. 
+🔹 Lesson Topic:
+Focus strictly on school curriculum and educational concepts as per the specialist: ${sessionDetail.selectedTeacher?.specialist}. 
 
-⛔ CRITICAL: Do NOT discuss medical topics, diseases (like diabetes), or healthcare advice unless it is strictly part of a school-level Biology curriculum (e.g., cell structure, human anatomy basics).
+⛔ CRITICAL: Do NOT discuss medical treatments, diagnostic advice, or professional career recruitment. Focus on teaching concepts like in a classroom.
 
-Training Rules:
+Teaching Rules:
 - Follow the communication style and language from your greeting message.
-- Don't lecture directly — ask questions like in a teacher-student interview.
+- Don't lecture directly — ask questions to guide the student's learning.
 - Ask only one question at a time.
 - Cover definitions, concepts, application-based scenarios, and common misconceptions.
 
@@ -122,10 +193,10 @@ Answer Evaluation:
 Behavior:
 - Act as a friendly teacher/mentor.
 - Keep answers short, clear, and learning-focused.
-- Encouragement is essential for correct answers.
+- Encouragement is essential for student confidence.
 
 Goal:
-Help the user understand the topic well enough to confidently clear an exam or interview on this topic.
+Help the student understand the topic well enough to confidently clear a school exam or conceptual quiz on this topic.
         `,
           },
         ],
@@ -250,7 +321,26 @@ Help the user understand the topic well enough to confidently clear an exam or i
           setCurrentRole(role);
         } else if (transcriptType === "final") {
           // Add finalized transcript to messages log
-          setMessages((prev) => [...prev, { role, text: transcript }]);
+          setMessages((prev) => {
+            if (prev.length > 0 && prev[prev.length - 1].role === role) {
+              const lastMsg = prev[prev.length - 1];
+              // Separate out questions into their own bubbles
+              const isLastQuestion = lastMsg.text.includes('?');
+              const isNewQuestion = transcript.includes('?');
+
+              if (isLastQuestion || isNewQuestion) {
+                return [...prev, { role, text: transcript }];
+              }
+
+              const updatedMessages = [...prev];
+              updatedMessages[updatedMessages.length - 1] = {
+                ...lastMsg,
+                text: lastMsg.text + " " + transcript
+              };
+              return updatedMessages;
+            }
+            return [...prev, { role, text: transcript }];
+          });
           setLiveTranscript("");
           setCurrentRole(null);
         }
@@ -277,7 +367,7 @@ Help the user understand the topic well enough to confidently clear an exam or i
   /**
    * endCall
    * Ends the ongoing voice call, cleans up listeners, generates
-   * a consultation report, and redirects the user back to dashboard.
+   * a learning report, and redirects the user back to dashboard.
    */
   const endCall = async () => {
     if (!vapiInstance || !callActiveRef.current) {
@@ -286,7 +376,7 @@ Help the user understand the topic well enough to confidently clear an exam or i
     }
 
     callActiveRef.current = false;
-    // Generate consultation report based on chat messages/
+    // Generate learning report based on chat messages/
     try {
       const result = await GenerateReport();
     } catch (e) {
@@ -313,16 +403,16 @@ Help the user understand the topic well enough to confidently clear an exam or i
     setCallStarted(false);
     setVapiInstance(null);
 
-    toast.success("Your report is generated!");
+    toast.success("Your learning report is generated!");
 
-    // Redirect to dashboard after call ends and report is generated
-    router.replace("/dashboard");
+    setIsEnded(true);
+    setIsMuted(false);
   };
 
   /**
    * GenerateReport
    * Sends the collected messages and session details to backend API to
-   * create a medical consultation report.
+   * create a learning session report.
    */
   const GenerateReport = async () => {
     setLoading(true);
@@ -339,61 +429,123 @@ Help the user understand the topic well enough to confidently clear an exam or i
   };
 
   return (
-    <div className="p-5 border rounded-3xl bg-secondary">
+    <div className="flex flex-col h-[calc(100vh-10rem)] p-5 border rounded-3xl bg-[#e69b6a]">
       {/* Status bar showing if call is connected */}
       <div className="flex justify-between items-center">
-        <h2 className="p-1 px-2 border rounded-md flex gap-2 items-center">
+        <h2 className="p-1 px-2 border rounded-md flex gap-2 items-center text-[#ffff]">
           <Circle
-            className={`h-4 w-4 rounded-full ${callStarted ? "bg-green-500" : "bg-red-500"
+            className={`h-4 w-4 rounded-full text-[#ffff] ${callStarted ? "bg-green-500" : "bg-red-500"
               }`}
           />
           {callStarted ? "Connected..." : "Not Connected"}
         </h2>
-        <h2 className="font-bold text-xl text-gray-400">00:00</h2>{" "}
-        {/* TODO: Add timer */}
+        <h2 className="font-bold text-xl text-[#ffff]">{formatTime(seconds)}</h2>{" "}
       </div>
 
       {/* Main content shows doctor details and conversation */}
       {sessionDetail && (
-        <div className="flex items-center flex-col mt-10">
-          <Image
-            src={sessionDetail.selectedTeacher?.image}
-            alt={sessionDetail.selectedTeacher?.specialist ?? ""}
-            width={120}
-            height={120}
-            className="h-[100px] w-[100px] object-cover rounded-full"
-          />
-          <h2 className="mt-2 text-lg">
-            {sessionDetail.selectedTeacher?.specialist}
-          </h2>
-          <p className="text-sm text-gray-400">AI Education Assistant</p>
-
-          {/* Show last 4 finalized messages and live transcript */}
-          <div className="mt-12 overflow-y-auto flex flex-col items-center px-10 md:px-28 lg:px-52 xl:px-72">
-            {messages.slice(-4).map((msg, index) => (
-              <h2 className="text-gray-400 p-2" key={index}>
-                {msg.role}: {msg.text}
-              </h2>
-            ))}
-            {liveTranscript && (
-              <h2 className="text-lg">
-                {currentRole} : {liveTranscript}
-              </h2>
+        <div className="grid grid-cols-1 md:grid-cols-10 gap-6 mt-6 flex-1 min-h-0">
+          {/* Left Side: Avatar & Controls (30%) */}
+          <div className="md:col-span-3 flex flex-col items-center bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full overflow-hidden">
+            <audio id="vapi-dummy-audio" className="hidden" autoPlay playsInline />
+            {sessionDetail.selectedTeacher?.gender === "male" ? (
+              <video
+                ref={videoRef}
+                src="/lantaai.mp4"
+                loop
+                muted
+                playsInline
+                className={`h-[120px] w-[120px] object-cover rounded-full shadow-md mb-4 transition-all duration-300 ${currentRole === "assistant"
+                  ? "ring-4 ring-orange-500 animate-ripple scale-105"
+                  : ""
+                  }`}
+              />
+            ) : sessionDetail.selectedTeacher?.gender === "female" ? (
+              <video
+                ref={videoRef}
+                src="/female.mp4"
+                loop
+                muted
+                playsInline
+                className={`h-[120px] w-[120px] object-cover rounded-full shadow-md mb-4 transition-all duration-300 ${currentRole === "assistant"
+                  ? "ring-4 ring-orange-500 animate-ripple scale-105"
+                  : ""
+                  }`}
+              />
+            ) : (
+              <Image
+                src={sessionDetail.selectedTeacher?.image}
+                alt={sessionDetail.selectedTeacher?.specialist ?? ""}
+                width={120}
+                height={120}
+                className="h-[120px] w-[120px] object-cover rounded-full shadow-md mb-4"
+              />
             )}
+            <h2 className="text-xl font-bold text-gray-800 text-center">
+              {sessionDetail.selectedTeacher?.specialist}
+            </h2>
+            <p className="text-sm text-gray-500 mb-4 md:mb-6">AI Education Assistant</p>
+
+            {/* Start, End Call, or Dashboard buttons */}
+            <div className="w-full mt-auto flex flex-col gap-3">
+              {!callStarted ? (
+                !isEnded ? (
+                  <Button className="w-full h-14 text-lg hover:scale-105 transition-all" onClick={StartCall} disabled={loading}>
+                    {loading ? <Loader className="animate-spin mr-2" /> : <PhoneCall className="mr-2" />}
+                    Start Call
+                  </Button>
+                ) : (
+                  <Button className="w-full h-14 text-lg bg-blue-600 hover:bg-blue-700 text-white hover:scale-105 transition-all" onClick={() => router.replace("/dashboard")} disabled={loading}>
+                    Back to Dashboard
+                  </Button>
+                )
+              ) : (
+                <>
+                  <Button
+                    className={`w-full h-14 text-lg hover:scale-105 transition-all ${isMuted ? 'bg-orange-100 text-orange-600 border-orange-300 hover:bg-orange-200' : ''}`}
+                    variant={isMuted ? "outline" : "secondary"}
+                    onClick={toggleMute}
+                  >
+                    {isMuted ? <MicOff className="mr-2 h-5 w-5 text-orange-500" /> : <Mic className="mr-2 h-5 w-5" />}
+                    {isMuted ? "Unmute" : "Mute"}
+                  </Button>
+                  <Button className="w-full h-14 text-lg hover:scale-105 transition-all" variant="destructive" onClick={endCall} disabled={loading}>
+                    {loading ? <Loader className="animate-spin mr-2" /> : <PhoneOff className="mr-2" />}
+                    Disconnect
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
 
-          {/* Start or End Call buttons */}
-          {!callStarted ? (
-            <Button className="mt-20" onClick={StartCall} disabled={loading}>
-              {loading ? <Loader className="animate-spin" /> : <PhoneCall />}{" "}
-              Start Call
-            </Button>
-          ) : (
-            <Button variant="destructive" onClick={endCall} disabled={loading}>
-              {loading ? <Loader className="animate-spin" /> : <PhoneOff />}{" "}
-              Disconnect
-            </Button>
-          )}
+          {/* Right Side: Chat Conversation (70%) */}
+          <div className="md:col-span-7 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full min-h-0">
+            {/* Show all finalized messages and live transcript */}
+            <div className="overflow-y-auto w-full h-full flex flex-col scroll-smooth pr-4 gap-4">
+              {messages.length === 0 && !liveTranscript && (
+                <div className="flex flex-col items-center justify-center h-full text-gray-400">
+                  <p>No messages yet. Start the call to begin!</p>
+                </div>
+              )}
+              {messages.map((msg, index) => (
+                <div key={index} className="flex flex-col items-start w-full">
+                  <span className="text-sm text-gray-600 mb-1">{msg.role === 'user' ? 'You' : 'Teacher'}</span>
+                  <div className={`py-3 px-4 rounded-xl text-gray-800 border max-w-[85%] ${msg.role === 'user' ? 'bg-gray-100 border-gray-200' : 'bg-red-100 border-red-200'}`}>
+                    {msg.role === 'user' ? msg.text : formatMessage(msg.text)}
+                  </div>
+                </div>
+              ))}
+              {liveTranscript && (
+                <div className="flex flex-col items-start w-full">
+                  <span className="text-sm text-gray-400 mb-1">{currentRole === 'user' ? 'You' : 'Teacher'}</span>
+                  <div className={`py-3 px-4 rounded-xl text-gray-800 border max-w-[85%] italic ${currentRole === 'user' ? 'bg-gray-100 border-gray-200' : 'bg-red-100 border-red-200'}`}>
+                    {currentRole === 'user' ? liveTranscript : formatMessage(liveTranscript)}
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
         </div>
       )}
     </div>

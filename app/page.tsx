@@ -8,7 +8,23 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="relative flex flex-col items-center justify-center">
+    <div className="relative flex flex-col items-center justify-center min-h-screen overflow-x-hidden">
+      {/* Background Image */}
+      <div
+        className="fixed inset-0 -z-10 bg-cover bg-no-repeat overflow-hidden"
+        style={{
+          backgroundImage: "url('/parth-gautam-umesh-gautam.png')",
+          filter: "blur(2px)",
+          transform: "scale(1.1)",
+          backgroundPosition: 'center 20px',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        {/* Subtle overlay for readability */}
+        <div className="absolute inset-0 bg-white/20 dark:bg-black/20" />
+      </div>
+
       <Navbar />
       <div className="absolute inset-y-0 left-0 h-full w-px bg-neutral-200/80 dark:bg-neutral-800/80">
         <div className="absolute top-0 h-40 w-px bg-gradient-to-b from-transparent via-blue-500 to-transparent" />
@@ -20,8 +36,8 @@ export default function Home() {
         <div className="absolute mx-auto h-px w-40 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
       </div>
       <div className="px-4 py-10 md:py-20">
-        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl dark:text-slate-300">
-          {"🧠 Empower Schools with AI Learning Voice Assistants..."
+        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold md:text-3xl lg:text-6xl mt-12 pb-4 leading-tight drop-shadow-sm">
+          {" Empower Students with AI Learning Voice Assistants..."
             .split(" ")
             .map((word, index) => (
               <motion.span
@@ -33,7 +49,8 @@ export default function Home() {
                   delay: index * 0.1,
                   ease: "easeInOut",
                 }}
-                className="mr-2 inline-block"
+                className={`mr-2 inline-block font-extrabold ${index < 6 ? "text-slate-900 dark:text-white" : "text-[#FF6600]"
+                  }`}
               >
                 {word}
               </motion.span>
@@ -55,7 +72,7 @@ export default function Home() {
             className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
           >
 
-            <button className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+            <button className="w-60 transform rounded-lg bg-[#FF9933] px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E68A2E] dark:bg-white dark:text-black dark:hover:bg-gray-200">
               Get Started
             </button>
 
@@ -86,16 +103,15 @@ export default function Home() {
 const Navbar = () => {
   const { user } = useUser();
   return (
-    <nav className="flex w-full items-center justify-between border-t border-b border-neutral-200 px-10 py-2 dark:border-neutral-800">
+    <nav className="flex w-full items-center justify-between px-10 py-2 dark:border-neutral-800">
       <div className="flex items-center gap-2">
-        <Image src={'/logo132.png'} alt='logo' width={140} height={10} />
-
-        {/* <div className="size-7 rounded-full bg-gradient-to-br from-violet-500 to-pink-500" />
-        <h1 className="text-base font-bold md:text-2xl">MediVoice AI</h1> */}
+        <Link href={'/'}>
+          <Image src={'/logo132.png'} alt='logo' width={140} height={10} />
+        </Link>
       </div>
       {!user ?
         <Link href={'/dashboard'}>
-          <button className="w-24 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 md:w-32 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+          <button className="w-24 transform rounded-lg bg-[#FF9933] px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E68A2E] md:w-32 dark:bg-white dark:text-black dark:hover:bg-gray-200">
             Login
           </button></Link> :
         <div className="flex gap-5 items-center">

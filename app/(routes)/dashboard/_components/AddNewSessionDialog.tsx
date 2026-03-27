@@ -22,7 +22,7 @@ import { SessionDetail } from "../teacher-agent/[sessionId]/page";
 
 function AddNewSessionDialog() {
   // 🧠 Local state management
-  const [note, setNote] = useState<string>(); // stores user symptom input
+  const [note, setNote] = useState<string>(); // stores session notes
   const [loading, setLoading] = useState(false); // tracks loading state
   const [selectedTeacher, setSelectedTeacher] = useState<TeacherAgent>({
     id: 1,
@@ -57,8 +57,8 @@ function AddNewSessionDialog() {
   };
 
 
-  // 🩺 Handles "Start Consultation" button — saves session and redirects
-  const onStartConsultation = async () => {
+  // 🏫 Handles "Start Lesson" button — saves session and redirects
+  const onStartLesson = async () => {
     setLoading(true);
     const result = await axios.post("/api/session-chat", {
       notes: note,
@@ -67,7 +67,7 @@ function AddNewSessionDialog() {
 
     console.log(result.data);
     if (result.data?.sessionId) {
-      // 🔁 Redirect to the new session page
+      // 🔁 Redirect to the new lesson page
       router.push("/dashboard/teacher-agent/" + result.data.sessionId);
     }
     setLoading(false);
@@ -78,23 +78,24 @@ function AddNewSessionDialog() {
       {/* 🔘 Open Dialog Button */}
       <DialogTrigger asChild>
         <Button
-          className="mt-3"
+          className="mt-3 bg-[#FF6600] hover:bg-[#E65C00] text-white"
           disabled={!paidUser && historyList?.length >= 1} // restrict for free users
         >
-          + Start Training
+          + Start New Lesson
         </Button>
       </DialogTrigger>
 
       {/* 🗂️ Dialog Content */}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Training Details</DialogTitle>
+          <DialogTitle>Lesson Details</DialogTitle>
           <DialogDescription asChild>
-            {/* Step 1: Enter Symptoms */}
+            {/* Step 1: Lesson Topic/Goal */}
             <div>
-              <h2>Enter the details for this training session</h2>
+              <h2>What would you like to learn today?</h2>
+              <p className="text-sm text-gray-500 mb-2">Enter the subject or topic you'd like to discuss with your AI Teacher.</p>
               <Textarea
-                placeholder="Add Detail here..."
+                placeholder="e.g., Photosynthesis, Algebra basics, World War II..."
                 className="h-[200px] mt-1"
                 onChange={(e) => setNote(e.target.value)}
               />
@@ -109,13 +110,13 @@ function AddNewSessionDialog() {
             <Button variant={"outline"}>Cancel</Button>
           </DialogClose>
 
-          {/* Next or Start Button depending on the step */}
-
+          {/* Start Lesson Button */}
           <Button
+            className="bg-[#FF6600] hover:bg-[#E65C00] text-white"
             disabled={loading || !selectedTeacher}
-            onClick={() => onStartConsultation()}
+            onClick={() => onStartLesson()}
           >
-            Start Training{" "}
+            Start Lesson{" "}
             {loading ? <Loader2 className="animate-spin" /> : <ArrowRight />}
           </Button>
         </DialogFooter>

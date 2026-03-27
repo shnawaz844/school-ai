@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 /**
- * Type definition for each doctor agent card
+ * Type definition for each teacher agent card
  */
 export type TeacherAgent = {
     id: number,
@@ -37,15 +37,15 @@ function TeacherAgentCard({ TeacherAgent }: props) {
     const paidUser = has && has({ plan: 'pro' });
 
     /**
-     * 📞 Handle Start Consultation Button Click
-     * Creates a new session with the selected doctor and redirects to the session page.
+     * 📞 Handle Start Lesson Button Click
+     * Creates a new session with the selected teacher and redirects to the session page.
      */
-    const onStartConsultation = async () => {
+    const onStartLesson = async () => {
         setLoading(true);
 
         // Post the new session to backend API
         const result = await axios.post('/api/session-chat', {
-            notes: 'New Query',
+            notes: 'New Learning Session',
             selectedTeacher: TeacherAgent
         });
 
@@ -59,12 +59,12 @@ function TeacherAgentCard({ TeacherAgent }: props) {
 
     return (
         <div className='relative'>
-            {/* 🔒 Premium badge if doctor requires subscription */}
-            {TeacherAgent.subscriptionRequired && (
+            {/* 🔒 Premium badge if teacher requires subscription */}
+            {/* {TeacherAgent.subscriptionRequired && (
                 <Badge className='absolute m-2 right-0'>Premium</Badge>
-            )}
+            )} */}
 
-            {/* 👨‍⚕️ Doctor image */}
+            {/* 🏫 Teacher image */}
             <Image
                 src={TeacherAgent.image}
                 alt={TeacherAgent.specialist}
@@ -73,21 +73,21 @@ function TeacherAgentCard({ TeacherAgent }: props) {
                 className='w-full h-[230px] object-cover rounded-xl'
             />
 
-            {/* 🩺 Specialist title */}
-            <h2 className='font-bold mt-1'>{TeacherAgent.specialist}</h2>
+            {/* 📚 Specialist title */}
+            <h2 className='font-semibold mt-1'>{TeacherAgent.specialist}</h2>
 
-            {/* 📋 Doctor description */}
+            {/* 📋 Teacher description */}
             <p className='line-clamp-2 text-sm text-gray-500'>
                 {TeacherAgent.description}
             </p>
 
-            {/* 🚀 Start consultation button */}
+            {/* 🚀 Start lesson button */}
             <Button
-                className='w-full mt-2'
-                onClick={onStartConsultation}
-            // disabled={!paidUser && doctorAgent.subscriptionRequired} // disable if doctor is premium & user isn't
+                className='w-full mt-2 bg-[#FF6600] hover:bg-[#E65C00] text-white'
+                onClick={onStartLesson}
+            // disabled={!paidUser && TeacherAgent.subscriptionRequired} // disable if teacher is premium & user isn't
             >
-                Start Training{' '}
+                Start Lesson{' '}
                 {loading ? (
                     <Loader2Icon className='animate-spin' />
                 ) : (

@@ -6,7 +6,7 @@ export const AITeacherAgents = [
         image: "/math.jpg",
         agentPrompt:
             "Hi! I am your Mathematics mentor. Aaj hum math ke concepts ko simplify karenge. Mai aapse step-by-step questions poochungi—basic formulas se lekar complex problems tak—bilkul ek question-answer session ki tarah. Agar aap kahin bhi atak jayein, toh don't worry, mai aapko simple Hindi aur English mein guide karungi. Let's make math easy. Kya aap shuru karne ke liye taiyar hain?",
-        voiceId: "Rohan",
+        voiceId: "nikita",
         gender: "female" as const,
         subscriptionRequired: false,
     },
@@ -30,7 +30,7 @@ export const AITeacherAgents = [
         image: "/physics1.jpg",
         agentPrompt:
             "Welcome! I am specialized in Senior Secondary Physics. Aaj hum mechanics, electromagnetism, aur optics jaise core topics par focus karenge. Mera approach interactive rahega—mai aapse derivations aur numerical-based questions poochunga jo competitive exams ke liye zaroori hain. Agar calculations ya logic mein doubt ho, toh be-jhijhak poochiye. Physics ko logic se samjhenge. Shall we begin?",
-        voiceId: "sarge",
+        voiceId: "Arjun",
         gender: "male" as const,
         subscriptionRequired: true,
     },
