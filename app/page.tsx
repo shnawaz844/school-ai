@@ -30,8 +30,8 @@ export default function Home() {
           }}
         />
       </div>
-      {/* Subtle overlay for readability - increased on mobile */}
-      <div className="fixed inset-0 -z-10 bg-white/50 md:bg-white/30 xl:bg-white/20 dark:bg-black/50 dark:md:bg-black/30 dark:xl:bg-black/20" />
+      {/* Black overlay for mobile readability, white for desktop */}
+      <div className="fixed inset-0 -z-10 bg-black/60 md:bg-white/40 xl:bg-white/20 dark:bg-black/70 dark:md:bg-black/40 dark:xl:bg-black/20" />
 
       <Navbar />
       <div className="px-4 py-10 md:py-20">
@@ -48,7 +48,7 @@ export default function Home() {
                   delay: index * 0.1,
                   ease: "easeInOut",
                 }}
-                className={`mr-2 inline-block font-extrabold ${index < 6 ? "text-slate-900 dark:text-white" : "text-[#FF6600]"
+                className={`mr-2 inline-block font-extrabold ${index < 6 ? "text-white md:text-slate-950 dark:text-white" : "text-[#FF6600]"
                   }`}
               >
                 {word}
@@ -59,7 +59,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.8 }}
-          className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-medium text-slate-800 dark:text-neutral-300 md:text-xl"
+          className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-semibold text-white md:text-slate-900 dark:text-neutral-200 md:text-xl drop-shadow-lg"
         >
           24/7 AI-powered study assistance for students. Clarify concepts, revise subjects, practice exams, and learn confidently with voice-based AI tutors.
         </motion.p>
@@ -105,7 +105,7 @@ const Navbar = () => {
     <nav className="flex w-full items-center justify-between px-4 md:px-10 py-2 dark:border-neutral-800 sticky top-0 z-50 bg-white/10">
       <div className="flex items-center gap-2">
         <Link href={'/'}>
-          <Image src={'/logo132.png'} alt='logo' width={140} height={16} className="md:w-[160px]" />
+          <Image src={'/logo-saffron.svg'} alt='logo' width={140} height={16} className="md:w-[160px]" />
         </Link>
       </div>
       {!user ?

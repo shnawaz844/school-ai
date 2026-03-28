@@ -1,0 +1,19 @@
+<svg width="240" height="80" viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A020F0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6600;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Text: school (Lowercase, very bold) -->
+  <text x="0" y="42" font-family="Arial Black, Helvetica, sans-serif" font-weight="900" font-size="38" fill="#FF6600" letter-spacing="-1">school</text>
+  
+  <!-- Icon: Triangle with pill shape (to the right of school) -->
+  <g transform="translate(145, 12)">
+    <path d="M15,0 L30,28 L0,28 Z" fill="url(#iconGrad)" />
+    <rect x="12" y="7" width="6" height="14" rx="3" fill="#FFFFFF" />
+  </g>
+
+  <!-- Subtext: parth gautam foundation (Below school) -->
+  <text x="2" y="70" font-family="Arial, sans-serif" font-weight="700" font-size="14.5" fill="#FF6600" letter-spacing="0.2">parth gautam foundation</text>
+</svg>

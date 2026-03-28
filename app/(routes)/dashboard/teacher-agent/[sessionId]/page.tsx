@@ -432,7 +432,7 @@ Help the student understand the topic well enough to confidently clear a school 
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-10rem)] p-5 border rounded-3xl bg-[#e69b6a]">
+    <div className="flex flex-col h-auto md:h-[calc(100vh-10rem)] p-3 md:p-5 border rounded-3xl bg-[#e69b6a]">
       {/* Status bar showing if call is connected */}
       <div className="flex justify-between items-center">
         <h2 className="p-1 px-2 border rounded-md flex gap-2 items-center text-[#ffff]">
@@ -445,11 +445,11 @@ Help the student understand the topic well enough to confidently clear a school 
         <h2 className="font-bold text-xl text-[#ffff]">{formatTime(seconds)}</h2>{" "}
       </div>
 
-      {/* Main content shows doctor details and conversation */}
+      {/* Main content shows student details and conversation */}
       {sessionDetail && (
-        <div className="grid grid-cols-1 md:grid-cols-10 gap-6 mt-6 flex-1 min-h-0">
+        <div className="flex flex-col md:grid md:grid-cols-10 gap-4 md:gap-6 mt-4 md:mt-6 md:flex-1 md:min-h-0">
           {/* Left Side: Avatar & Controls (30%) */}
-          <div className="md:col-span-3 flex flex-col items-center bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full overflow-hidden">
+          <div className="md:col-span-3 flex flex-col items-center bg-white rounded-xl shadow-sm border border-gray-100 p-2 md:p-6 h-[400px] md:h-full overflow-y-auto md:overflow-hidden shrink-0 custom-scrollbar">
             <audio id="vapi-dummy-audio" className="hidden" autoPlay playsInline />
             {sessionDetail.selectedTeacher?.gender === "male" ? (
               <video
@@ -481,39 +481,68 @@ Help the student understand the topic well enough to confidently clear a school 
                 alt={sessionDetail.selectedTeacher?.specialist ?? ""}
                 width={120}
                 height={120}
-                className="h-[120px] w-[120px] object-cover rounded-full shadow-md mb-4"
+                className="h-[90px] w-[90px] md:h-[120px] md:w-[120px] object-cover rounded-full shadow-md mb-2 md:mb-4"
               />
             )}
-            <h2 className="text-xl font-bold text-gray-800 text-center">
+            <h2 className="text-xl font-bold text-gray-800 text-center mb-1">
               {sessionDetail.selectedTeacher?.specialist}
             </h2>
-            <p className="text-sm text-gray-500 mb-4 md:mb-6">AI Education Assistant</p>
+            <p className="text-sm text-gray-500 mb-2 md:mb-4">AI Education Assistant</p>
 
             {/* Start, End Call, or Dashboard buttons */}
-            <div className="w-full mt-auto flex flex-col gap-3">
+            <div className="w-full mt-2 md:mt-auto flex flex-col gap-2 max-h-[200px] overflow-y-auto scrollbar-hide">
               {!callStarted ? (
                 !isEnded ? (
-                  <Button className="w-full h-14 text-lg hover:scale-105 transition-all" onClick={StartCall} disabled={loading}>
-                    {loading ? <Loader className="animate-spin mr-2" /> : <PhoneCall className="mr-2" />}
+                  <Button
+                    className="w-full h-14 text-lg hover:scale-105 transition-all"
+                    onClick={StartCall}
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <Loader className="animate-spin mr-2" />
+                    ) : (
+                      <PhoneCall className="mr-2" />
+                    )}
                     Start Call
                   </Button>
                 ) : (
-                  <Button className="w-full h-14 text-lg bg-blue-600 hover:bg-blue-700 text-white hover:scale-105 transition-all" onClick={() => router.replace("/dashboard")} disabled={loading}>
+                  <Button
+                    className="w-full h-14 text-lg bg-blue-600 hover:bg-blue-700 text-white hover:scale-105 transition-all"
+                    onClick={() => router.replace("/dashboard")}
+                    disabled={loading}
+                  >
                     Back to Dashboard
                   </Button>
                 )
               ) : (
                 <>
                   <Button
-                    className={`w-full h-14 text-lg hover:scale-105 transition-all ${isMuted ? 'bg-orange-100 text-orange-600 border-orange-300 hover:bg-orange-200' : ''}`}
+                    className={`w-full h-14 text-lg hover:scale-105 transition-all ${isMuted
+                        ? "bg-orange-100 text-orange-600 border-orange-300 hover:bg-orange-200"
+                        : ""
+                      }`}
                     variant={isMuted ? "outline" : "secondary"}
                     onClick={toggleMute}
                   >
-                    {isMuted ? <MicOff className="mr-2 h-5 w-5 text-orange-500" /> : <Mic className="mr-2 h-5 w-5" />}
+                    {isMuted ? (
+                      <MicOff className="mr-2 h-5 w-5 text-orange-500" />
+                    ) : (
+                      <Mic className="mr-2 h-5 w-5" />
+                    )}
                     {isMuted ? "Unmute" : "Mute"}
                   </Button>
-                  <Button className="w-full h-14 text-lg hover:scale-105 transition-all" variant="destructive" onClick={endCall} disabled={loading}>
-                    {loading ? <Loader className="animate-spin mr-2" /> : <PhoneOff className="mr-2" />}
+
+                  <Button
+                    className="w-full h-14 text-lg hover:scale-105 transition-all"
+                    variant="destructive"
+                    onClick={endCall}
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <Loader className="animate-spin mr-2" />
+                    ) : (
+                      <PhoneOff className="mr-2" />
+                    )}
                     Disconnect
                   </Button>
                 </>
@@ -522,7 +551,7 @@ Help the student understand the topic well enough to confidently clear a school 
           </div>
 
           {/* Right Side: Chat Conversation (70%) */}
-          <div className="md:col-span-7 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full min-h-0">
+          <div className="md:col-span-7 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 h-[350px] md:h-full md:min-h-0">
             {/* Show all finalized messages and live transcript */}
             <div className="overflow-y-auto w-full h-full flex flex-col scroll-smooth pr-4 gap-4">
               {messages.length === 0 && !liveTranscript && (

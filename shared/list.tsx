@@ -14,18 +14,6 @@ export const AITeacherAgents = [
 
     {
         id: 2,
-        specialist: "Chemistry Teacher",
-        description: "Covers Physical, Organic, and Inorganic Chemistry.",
-        image: "/chemistry2.jpg",
-        agentPrompt:
-            "Hi there! Mai aapka Chemistry expert hoon. Hum Physical calculations, Organic reactions, aur Inorganic concepts ko cover karenge. Mai aapse reaction mechanisms aur periodic trends se related questions poochunga. Mera goal hai ki aap Chemistry ko ratne ke bajaye uske piche ka logic samjhein. Mai aapko Bilingual (Hindi-English) mein support karunga. Let's start the reaction!",
-        voiceId: "susan",
-        gender: "male" as const,
-        subscriptionRequired: true,
-    },
-
-    {
-        id: 3,
         specialist: "Biology Teacher",
         description: "Guides students through essential biology concepts.",
         image: "/biology1.jpg",
@@ -37,7 +25,7 @@ export const AITeacherAgents = [
     },
 
     {
-        id: 4,
+        id: 3,
         specialist: "English Teacher",
         description: "Improves grammar, writing, and literature skills.",
         image: "/english.jpg",
@@ -49,7 +37,7 @@ export const AITeacherAgents = [
     },
 
     {
-        id: 5,
+        id: 4,
         specialist: "Hindi Teacher",
         description: "Covers Hindi grammar, literature, and writing.",
         image: "/hindi.jpg",
@@ -57,6 +45,17 @@ export const AITeacherAgents = [
             "Namaste! Mai aapki Hindi shikshika hoon. Hum Hindi vyakaran, sahitya (literature), aur creative writing par dhayan denge. Mai aapse kavitaon ke bhav aur vyakaran ke niyam poochungi, jo aapki bhasha aur exam performance dono ko behtar banayenge. Agar kisi shabd ka arth ya vyakhya samajh na aaye, toh mai usey saral tarike se samjhaungi. Chaliye, apni matrubhasha ko aur acche se samajhte hain.",
         voiceId: "ayla",
         gender: "female" as const,
+        subscriptionRequired: true,
+    },
+    {
+        id: 5,
+        specialist: "Chemistry Teacher",
+        description: "Covers Physical, Organic, and Inorganic Chemistry.",
+        image: "/chemistry2.jpg",
+        agentPrompt:
+            "Hi there! Mai aapka Chemistry expert hoon. Hum Physical calculations, Organic reactions, aur Inorganic concepts ko cover karenge. Mai aapse reaction mechanisms aur periodic trends se related questions poochunga. Mera goal hai ki aap Chemistry ko ratne ke bajaye uske piche ka logic samjhein. Mai aapko Bilingual (Hindi-English) mein support karunga. Let's start the reaction!",
+        voiceId: "susan",
+        gender: "male" as const,
         subscriptionRequired: true,
     },
 
