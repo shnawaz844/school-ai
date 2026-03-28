@@ -14,7 +14,7 @@ export default function Home() {
         <div
           className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden "
           style={{
-            backgroundImage: "url('/partg-g-2.jfif')",
+            backgroundImage: "url('/parth.gautam.banner.jpeg')",
             // transform: "scale(1.1)",
             backgroundPosition: 'center'
           }}
@@ -30,8 +30,8 @@ export default function Home() {
           }}
         />
       </div>
-      {/* Subtle overlay for readability */}
-      <div className="fixed inset-0 -z-10 bg-white/20 dark:bg-black/20" />
+      {/* Subtle overlay for readability - increased on mobile */}
+      <div className="fixed inset-0 -z-10 bg-white/50 md:bg-white/30 xl:bg-white/20 dark:bg-black/50 dark:md:bg-black/30 dark:xl:bg-black/20" />
 
       <Navbar />
       <div className="px-4 py-10 md:py-20">
@@ -59,7 +59,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.8 }}
-          className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
+          className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-medium text-slate-800 dark:text-neutral-300 md:text-xl"
         >
           24/7 AI-powered study assistance for students. Clarify concepts, revise subjects, practice exams, and learn confidently with voice-based AI tutors.
         </motion.p>
