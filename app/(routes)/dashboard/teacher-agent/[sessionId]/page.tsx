@@ -490,7 +490,7 @@ Help the student understand the topic well enough to confidently clear a school 
             <p className="text-sm text-gray-500 mb-2 md:mb-4">AI Education Assistant</p>
 
             {/* Start, End Call, or Dashboard buttons */}
-            <div className="w-full mt-2 md:mt-auto flex flex-col gap-2 max-h-[200px] overflow-y-auto scrollbar-hide">
+            <div className="w-full mt-2 md:mt-auto flex flex-col gap-2">
               {!callStarted ? (
                 !isEnded ? (
                   <Button
@@ -518,8 +518,8 @@ Help the student understand the topic well enough to confidently clear a school 
                 <>
                   <Button
                     className={`w-full h-14 text-lg hover:scale-105 transition-all ${isMuted
-                        ? "bg-orange-100 text-orange-600 border-orange-300 hover:bg-orange-200"
-                        : ""
+                      ? "bg-orange-100 text-orange-600 border-orange-300 hover:bg-orange-200"
+                      : ""
                       }`}
                     variant={isMuted ? "outline" : "secondary"}
                     onClick={toggleMute}
