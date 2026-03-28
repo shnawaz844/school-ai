@@ -105,7 +105,7 @@ const Navbar = () => {
     <nav className="flex w-full items-center justify-between px-4 md:px-10 py-2 dark:border-neutral-800 sticky top-0 z-50 bg-white/10">
       <div className="flex items-center gap-2">
         <Link href={'/'}>
-          <Image src={'/logo-saffron.svg'} alt='logo' width={140} height={16} className="md:w-[160px]" />
+          <Image src={'/logo132.png'} alt='logo' width={140} height={16} className="md:w-[160px]" />
         </Link>
       </div>
       {!user ?
