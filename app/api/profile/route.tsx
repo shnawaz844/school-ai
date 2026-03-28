@@ -11,10 +11,13 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-        const { classSubject } = await req.json();
+        const { studentClass, subjects } = await req.json();
 
         const result = await db.update(usersTable)
-            .set({ classSubject })
+            .set({ 
+                studentClass: studentClass,
+                subjects: subjects
+            })
             //@ts-ignore
             .where(eq(usersTable.email, user.primaryEmailAddress?.emailAddress ?? ''))
             .returning();

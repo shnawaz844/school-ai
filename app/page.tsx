@@ -8,41 +8,40 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen overflow-x-hidden">
+    <div className="relative flex flex-col items-center justify-start min-h-screen overflow-x-hidden">
       {/* Background Image */}
-      <div
-        className="fixed inset-0 -z-10 bg-cover bg-no-repeat overflow-hidden"
-        style={{
-          backgroundImage: "url('/parth-gautam-umesh-gautam.png')",
-          filter: "blur(2px)",
-          transform: "scale(1.1)",
-          backgroundPosition: 'center 20px',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        {/* Subtle overlay for readability */}
-        <div className="absolute inset-0 bg-white/20 dark:bg-black/20" />
+      <div className="fixed inset-0 -z-10 block xl:hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden "
+          style={{
+            backgroundImage: "url('/partg-g-2.jfif')",
+            // transform: "scale(1.1)",
+            backgroundPosition: 'center'
+          }}
+        />
       </div>
+      <div className="fixed inset-0 -z-10 hidden xl:block">
+        <div
+          className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden"
+          style={{
+            backgroundImage: "url('/parth-gautam-umesh-gautam.png')",
+            transform: "scale(1.1)",
+            backgroundPosition: 'center 20px'
+          }}
+        />
+      </div>
+      {/* Subtle overlay for readability */}
+      <div className="fixed inset-0 -z-10 bg-white/20 dark:bg-black/20" />
 
       <Navbar />
-      <div className="absolute inset-y-0 left-0 h-full w-px bg-neutral-200/80 dark:bg-neutral-800/80">
-        <div className="absolute top-0 h-40 w-px bg-gradient-to-b from-transparent via-blue-500 to-transparent" />
-      </div>
-      <div className="absolute inset-y-0 right-0 h-full w-px bg-neutral-200/80 dark:bg-neutral-800/80">
-        <div className="absolute h-40 w-px bg-gradient-to-b from-transparent via-blue-500 to-transparent" />
-      </div>
-      <div className="absolute inset-x-0 bottom-0 h-px w-full bg-neutral-200/80 dark:bg-neutral-800/80">
-        <div className="absolute mx-auto h-px w-40 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-      </div>
       <div className="px-4 py-10 md:py-20">
-        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold md:text-3xl lg:text-6xl mt-12 pb-4 leading-tight drop-shadow-sm">
+        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold md:text-3xl lg:text-6xl mt-12 pb-4">
           {" Empower Students with AI Learning Voice Assistants..."
             .split(" ")
             .map((word, index) => (
               <motion.span
                 key={index}
-                initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
+                initial={{ opacity: 0, filter: "blur(0px)", y: 0 }}
                 animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                 transition={{
                   duration: 0.3,
@@ -72,7 +71,7 @@ export default function Home() {
             className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
           >
 
-            <button className="w-60 transform rounded-lg bg-[#FF9933] px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E68A2E] dark:bg-white dark:text-black dark:hover:bg-gray-200">
+            <button className="w-60 transform rounded-lg bg-[#ff6600] px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e65c00] dark:bg-white dark:text-black dark:hover:bg-gray-200">
               Get Started
             </button>
 
@@ -103,21 +102,21 @@ export default function Home() {
 const Navbar = () => {
   const { user } = useUser();
   return (
-    <nav className="flex w-full items-center justify-between px-10 py-2 dark:border-neutral-800">
+    <nav className="flex w-full items-center justify-between px-4 md:px-10 py-2 dark:border-neutral-800 sticky top-0 z-50 bg-white/10">
       <div className="flex items-center gap-2">
         <Link href={'/'}>
-          <Image src={'/logo132.png'} alt='logo' width={140} height={10} />
+          <Image src={'/logo132.png'} alt='logo' width={140} height={16} className="md:w-[160px]" />
         </Link>
       </div>
       {!user ?
         <Link href={'/dashboard'}>
-          <button className="w-24 transform rounded-lg bg-[#FF9933] px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E68A2E] md:w-32 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+          <button className="w-24 transform rounded-lg bg-[#ff6600] px-4 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e65c00] md:w-32 dark:bg-white dark:text-black dark:hover:bg-gray-200">
             Login
           </button></Link> :
-        <div className="flex gap-5 items-center">
+        <div className="flex gap-2 md:gap-5 items-center">
           <UserButton />
           <Link href={'/dashboard'}>
-            <Button>Dashboard</Button>
+            <Button className='bg-[#ff6600] hover:bg-[#e65c00] text-white px-3 md:px-4 text-sm md:text-base'>Dashboard</Button>
           </Link>
         </div>
       }

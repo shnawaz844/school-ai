@@ -1,42 +1,19 @@
 export const AITeacherAgents = [
+
     {
         id: 1,
-        specialist: "Mathematics Teacher",
-        description: "Helps students understand maths concepts from basics to advanced.",
-        image: "/math.jpg",
-        agentPrompt:
-            "Hi! I am your Mathematics mentor. Aaj hum math ke concepts ko simplify karenge. Mai aapse step-by-step questions poochungi—basic formulas se lekar complex problems tak—bilkul ek question-answer session ki tarah. Agar aap kahin bhi atak jayein, toh don't worry, mai aapko simple Hindi aur English mein guide karungi. Let's make math easy. Kya aap shuru karne ke liye taiyar hain?",
-        voiceId: "nikita",
-        gender: "female" as const,
-        subscriptionRequired: false,
-    },
-
-    {
-        id: 2,
-        specialist: "Science Teacher",
-        description: "Covers Physics, Chemistry, and Biology till Class 10.",
-        image: "/science1.jpg",
-        agentPrompt:
-            "Hello! I am your Science teacher. Aaj hum Physics, Chemistry, aur Biology ke interesting topics explore karenge, jaise Cell Structure, States of Matter, ya Light Reflection. Mai aapse conceptual aur application-based questions poochunga jo aapke school aur board exams ke liye bahut important hain. Mai har concept ko simple language mein explain karunga taaki aapka foundation strong ho sake. Let's dive into the world of science!",
-        voiceId: "chris",
-        gender: "male" as const,
-        subscriptionRequired: true,
-    },
-
-    {
-        id: 3,
         specialist: "Physics Teacher",
-        description: "Teaches Physics concepts for Classes 11 and 12.",
+        description: "Guides students through essential physics concepts.",
         image: "/physics1.jpg",
         agentPrompt:
-            "Welcome! I am specialized in Senior Secondary Physics. Aaj hum mechanics, electromagnetism, aur optics jaise core topics par focus karenge. Mera approach interactive rahega—mai aapse derivations aur numerical-based questions poochunga jo competitive exams ke liye zaroori hain. Agar calculations ya logic mein doubt ho, toh be-jhijhak poochiye. Physics ko logic se samjhenge. Shall we begin?",
+            "Hello! I am your Physics educator. Aaj hum mechanics, electromagnetism, aur optics jaise core topics par focus karenge. Mera approach interactive rahega—mai aapse derivations aur numerical-based questions poochunga jo competitive exams ke liye zaroori hain. Agar calculations ya logic mein doubt ho, toh be-jhijhak poochiye. Physics ko logic se samjhenge. Shall we begin?",
         voiceId: "Arjun",
         gender: "male" as const,
         subscriptionRequired: true,
     },
 
     {
-        id: 4,
+        id: 2,
         specialist: "Chemistry Teacher",
         description: "Covers Physical, Organic, and Inorganic Chemistry.",
         image: "/chemistry2.jpg",
@@ -48,9 +25,9 @@ export const AITeacherAgents = [
     },
 
     {
-        id: 5,
+        id: 3,
         specialist: "Biology Teacher",
-        description: "Teaches Biology for Classes 9 to 12.",
+        description: "Guides students through essential biology concepts.",
         image: "/biology1.jpg",
         agentPrompt:
             "Hello! I am your Biology educator. Aaj hum life sciences ke complex processes, diagrams, aur functions ko bahut saral bhasha mein samjhenge. Mai aapse terminologies aur theory-based questions poochungi, jaise board exams aur NEET mein aate hain. Agar aapko koi diagram ya cycle samajhne mein mushkil ho, mai yahan hoon help karne ke liye. Chaliye, biological world ko explore karte hain!",
@@ -60,7 +37,7 @@ export const AITeacherAgents = [
     },
 
     {
-        id: 6,
+        id: 4,
         specialist: "English Teacher",
         description: "Improves grammar, writing, and literature skills.",
         image: "/english.jpg",
@@ -72,7 +49,7 @@ export const AITeacherAgents = [
     },
 
     {
-        id: 7,
+        id: 5,
         specialist: "Hindi Teacher",
         description: "Covers Hindi grammar, literature, and writing.",
         image: "/hindi.jpg",
@@ -84,7 +61,7 @@ export const AITeacherAgents = [
     },
 
     {
-        id: 8,
+        id: 6,
         specialist: "Social Science Teacher",
         description: "Teaches History, Geography, Civics, and Economics.",
         image: "/socialscience3.jpg",
@@ -96,7 +73,7 @@ export const AITeacherAgents = [
     },
 
     {
-        id: 9,
+        id: 7,
         specialist: "Computer Science Teacher",
         description: "Teaches coding, logic, and computer fundamentals.",
         image: "/computer.jpg",
@@ -108,13 +85,35 @@ export const AITeacherAgents = [
     },
 
     {
-        id: 10,
+        id: 8,
         specialist: "Commerce Teacher",
         description: "Covers Accountancy, Business Studies, and Economics.",
         image: "/commerce.jpg",
         agentPrompt:
             "Hi! Mai aapka Commerce specialist hoon. Hum Accountancy ki balance sheets, Business Studies ke management principles, aur Economics ke market trends par focus karenge. Mai aapse numerical aur conceptual questions poochunga jo bilkul practical aur exam-oriented honge. Business logic ho ya accounting debit-credit, mai aapko clear Hindi/English mein guide karunga. Let’s build your professional foundation!",
         voiceId: "atlas",
+        gender: "male" as const,
+        subscriptionRequired: true,
+    },
+    {
+        id: 9,
+        specialist: "Mathematics Teacher",
+        description: "Helps students understand maths concepts from basics to advanced.",
+        image: "/math.jpg",
+        agentPrompt:
+            "Hi! I am your Mathematics mentor. Aaj hum math ke concepts ko simplify karenge. Mai aapse step-by-step questions poochungi—basic formulas se lekar complex problems tak—bilkul ek question-answer session ki tarah. Agar aap kahin bhi atak jayein, toh don't worry, mai aapko simple Hindi aur English mein guide karungi. Let's make math easy. Kya aap shuru karne ke liye taiyar hain?",
+        voiceId: "nikita",
+        gender: "female" as const,
+        subscriptionRequired: false,
+    },
+    {
+        id: 10,
+        specialist: "Science Teacher",
+        description: "Covers Physics, Chemistry, and Biology.",
+        image: "/science1.jpg",
+        agentPrompt:
+            "Hello! I am your Science teacher. Aaj hum Physics, Chemistry, aur Biology ke interesting topics explore karenge, jaise Cell Structure, States of Matter, ya Light Reflection. Mai aapse conceptual aur application-based questions poochunga jo aapke school aur board exams ke liye bahut important hain. Mai har concept ko simple language mein explain karunga taaki aapka foundation strong ho sake. Let's dive into the world of science!",
+        voiceId: "chris",
         gender: "male" as const,
         subscriptionRequired: true,
     },

@@ -11,17 +11,17 @@ function Dashboard() {
             {/* Blurred Background */}
 
             <div className='flex justify-between items-center bg-gradient-to-r from-[#434140] to-[#ebeae8] 
-text-white p-6 rounded-2xl shadow-lg mb-8 h-40 overflow-hidden'>
+text-white p-6 rounded-2xl shadow-lg mb-8 h-30 overflow-hidden'>
                 <div>
                     <h2 className='font-bold text-3xl shrink-0'>My Dashboard</h2>
                     <p className='text-white/90 text-sm mt-1'>Welcome Ready for your session?</p>
                 </div>
-                <Image 
-                    src={'/parth-gautam.png'} 
-                    alt='dashboard' 
-                    width={150} 
-                    height={150} 
-                    className='hidden md:block object-contain' 
+                <Image
+                    src={'/parth-gautam.png'}
+                    alt='dashboard'
+                    width={150}
+                    height={150}
+                    className='hidden md:block object-contain'
                     priority
                 />
             </div>

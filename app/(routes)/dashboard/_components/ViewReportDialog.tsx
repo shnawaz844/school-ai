@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { SessionDetail } from "../teacher-agent/[sessionId]/page";
 import moment from "moment";
+import { useUser } from "@clerk/nextjs";
 
 type props = {
   record: SessionDetail;
@@ -19,6 +20,7 @@ type props = {
  * Displays a detailed AI Tutoring / Learning session report
  */
 function ViewReportDialog({ record }: props) {
+  const { user } = useUser();
   const report: any = record?.report;
   const formatDate = moment(record?.createdOn).format(
     "MMMM Do YYYY, h:mm a"
@@ -50,12 +52,12 @@ function ViewReportDialog({ record }: props) {
                 </h3>
                 <hr className="border-t-2 border-blue-500 my-2" />
                 <div className="grid grid-cols-2 gap-3">
-                  <p><strong>Teacher:</strong> {report?.agent}</p>
-                  <p><strong>Student:</strong> {report?.user || "Anonymous"}</p>
-                  <p><strong>Subject / Topic:</strong> {report?.trainingTopic}</p>
+                  <p><strong>Teacher:</strong> {report?.agent || record?.selectedTeacher?.specialist}</p>
+                  <p><strong>Student:</strong> {report?.user && report?.user !== "Anonymous" ? report?.user : (user?.fullName || "Anonymous")}</p>
+                  <p><strong>Subject / Topic:</strong> {report?.trainingTopic || record?.selectedTeacher?.specialist}</p>
                   <p><strong>Date:</strong> {formatDate}</p>
-                  <p><strong>Learning Score:</strong> {report?.learningScore || "N/A"} / 100</p>
-                  <p><strong>Overall Performance:</strong> {report?.overallAssessment}</p>
+                  <p><strong>Learning Score:</strong> {report?.learningScore !== undefined && report?.learningScore !== null ? report.learningScore : "N/A"} / 100</p>
+                  <p><strong>Overall Performance:</strong> {report?.overallAssessment || "N/A"}</p>
                 </div>
               </div>
 

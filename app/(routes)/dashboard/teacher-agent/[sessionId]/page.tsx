@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Vapi from "@vapi-ai/web";
 import { toast } from "sonner";
+import { useUser } from "@clerk/nextjs";
 
 export type SessionDetail = {
   id: number;
@@ -45,6 +46,7 @@ function TeacherVoiceAgent() {
   const [isEnded, setIsEnded] = useState(false); // Session ended state
   const [isMuted, setIsMuted] = useState(false); // Microphone mute state
   const router = useRouter();
+  const { user } = useUser();
   const callActiveRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -420,6 +422,7 @@ Help the student understand the topic well enough to confidently clear a school 
       messages: messages,
       sessionDetail: sessionDetail,
       sessionId: sessionId,
+      studentName: user?.fullName || user?.firstName || "Anonymous"
     });
 
     console.log(result.data);
