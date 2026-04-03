@@ -53,7 +53,7 @@ export const AITeacherAgents = [
         description: "Covers Physical, Organic, and Inorganic Chemistry.",
         image: "/chemistry2.jpg",
         agentPrompt:
-            "Hi ! Mai aapka Chemistry expert hoon.To aaj aap Chemistry me kya seekhna chahte hai?",
+            "Hi ! Mai aapka Chemistry expert hoon.To aaj aap Chemistry me kya seekhna chahte hai? ",
         voiceId: "susan",
         gender: "male" as const,
         subscriptionRequired: true,
